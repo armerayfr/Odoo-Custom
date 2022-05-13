@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="session_action" model="ir.actions.act_window">
+            <field name="name">Session</field>
+            <field name="res_model">courses.session</field>
+            <field name="view_mode">tree,kanban,calendar,form,search,graph</field>
+            <field name="help" type="html">
+                <p style="background-color:blue;" class="o_view_nocontent_smiling_face">
+                    Create New Sessions!!!
+                </p>
+            </field>
+        </record>
+
+        <!-- number of seats bisa, attendees_ids ga bisa -->
+        <record id="session_graph" model="ir.ui.view">
+            <field name="name">courses.session.graph</field>
+            <field name="model">courses.session</field>
+            <field name="arch" type="xml">
+                <graph string="Session Attendees">
+                    <field name="course_ids"/>
+                    <field name='number_of_seats' type='measure'/>
+                    <!-- <field name="percentage_of_taken_seats" type="measure"/> -->
+                </graph>
+            </field>
+        </record>
+
+        <record id="courses_session_search" model="ir.ui.view">
+            <field name="name">courses.session.search</field>
+            <field name="model">courses.session</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="course_ids" placeholder="course..." />
+                </search>
+            </field>
+        </record>
+
+        <record id="courses_session_calendar" model="ir.ui.view">
+            <field name="name">courses.session.calendar</field>
+            <field name="model">courses.session</field>
+            <field name="arch" type="xml">
+                <calendar date_start="start_date" hide_time="true" event_limit="5">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="courses_session_form" model="ir.ui.view">
+            <field name="name">courses.session.form</field>
+            <field name="model">courses.session</field>
+            <field name="arch" type="xml">
+                <form string="Idea Form">
+                    <group colspan="2" col="2">
+                        <field name="name" placeholder="Name..." />
+                        <field name="start_date" placeholder="Start Date..." />
+                        <field name="duration" placeholder="Duration..." />
+                        <field name="number_of_seats" placeholder="Number of Seats..." />
+                        <field name="instructor_id" placeholder="Instructor..." />
+                        <field name="days_left" />
+
+                        <!-- <field name="course_id" placeholder="Course..." /> -->
+                        <field name="course_ids" placeholder="Course_ID.." />
+                        <field widget="many2many_tags" name="attendees_ids" placeholder="Attendees_ID.." />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="courses_session_tree" model="ir.ui.view">
+            <field name="name">courses.session.tree</field>
+            <field name="model">courses.session</field>
+            <field name="arch" type="xml" >
+                <tree decoration-info="days_left&lt;5" decoration-danger="days_left&gt;15">
+                <!-- <tree> -->
+                    <field name="name"/>
+                    <!-- <field name="start_date"/> -->
+                    <!-- <field name="duration" invisible="1"/> -->
+                    <!-- <field name="number_of_seats"/> -->
+                    <!-- <field name="instructor_id"/> -->
+                    <field name="course_ids"/>
+                    <field name="days_left" invisible='1'/>
+                    <!-- <field widget="many2many_tags" name="attendees_ids"/> -->
+                    <field widget="progressbar" name="percentage_of_taken_seats"/>                  
+                </tree>
+            </field>
+        </record>
+
+        <menuitem   
+        id='course_session_root'
+        name="Session"
+        sequence="10"/>
+
+        <menuitem   
+        id='list_sessions'
+        name="Session List"
+        parent='course_session_root'
+        action='session_action'
+        sequence="10"/>
+
+        <!-- <menuitem  
+        id='list_sessions_view'
+        name="All Sessions"
+        parent='list_sessions'
+        action='session_action'
+        sequence="10"/> -->
+
+    </odoo>

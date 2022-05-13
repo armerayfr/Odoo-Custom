@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="courses_action" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="res_model">openacademy.course</field>
+            <field name="view_mode">tree,kanban,form,search</field>
+            <field name="help" type="html">
+                <p style="background-color:red;" class="o_view_nocontent_smiling_face">
+                    Create New Courses!!
+                </p>
+            </field>
+        </record>        
+
+        <record id="courses_search" model="ir.ui.view">
+            <field name="name">courses.order.search</field>
+            <field name="model">openacademy.course</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="title" filter_domain="[('title','ilike',self)]" string="title"/>
+                    <filter name="responsible_id" string="is_responsible" domain="[('responsible_id', '=', uid)]"/>
+                    <group string="Group By">
+                        <filter name="group_by_responsible" string="Responsible" context="{'group_by': 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="courses_form" model="ir.ui.view">
+            <field name="name">courses.order.form</field>
+            <field name="model">openacademy.course</field>
+            <field name="arch" type="xml">
+                <form string="Idea Form">
+                    <sheet>
+                        <separator string="General" colspan="3" />
+                        <group colspan="2" col="2">
+                            <field name="title" placeholder="Title..." />
+                            <field name="description" placeholder="Description..." />
+                            <field name="session_ids" placeholder="Session..." />
+                            <field name="responsible_id" placeholder="Responsible User..." />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="courses_tree" model="ir.ui.view">
+            <field name="name">courses.order.tree</field>
+            <field name="model">openacademy.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="responsible_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem   
+        id='courses_root'
+        name="Courses"
+        sequence="10"/>
+        
+        <menuitem   
+        id='list_courses'
+        name="Courses List"
+        parent='courses_root'
+        action='courses_action'
+        sequence="10"/>
+    </odoo>
